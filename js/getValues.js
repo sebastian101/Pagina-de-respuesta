@@ -1,5 +1,8 @@
-$(document).ready(function() {
+/**
+ * @author Sebastián Duque <sebastian.duque@payulatam.com>
+ */
 
+$(document).ready(function() {
     // Function which store in a variable the GET url and split the values of each field.
     function load(variable) {
         var query = window.location.search.substring(1);
@@ -13,10 +16,10 @@ $(document).ready(function() {
         return (false);
     };
 
-    // Event which execute the Function Load automatic
+    // Event which executes the Function Load automatic
     window.onload = load;
 
-    // Creation and initialization of variables query the function Load
+    // Creation and initialization of variables using the function Load
     var merchantId = load("merchantId");
     var referenceCode = load("referenceCode");
     var transactionId = load("transactionId");
@@ -30,6 +33,8 @@ $(document).ready(function() {
     var lapPaymentMethodType = load("lapPaymentMethodType");
     var lapPaymentMethod = load("lapPaymentMethod");
 
+    // Assignation of values in fields of the response page (mostrarCampos.html).
+    
 
     // Show in the console log the values of the variables.
     console.log(merchantId + "\n");
