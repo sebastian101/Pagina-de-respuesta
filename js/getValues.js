@@ -18,23 +18,27 @@ $(document).ready(function() {
 
     };
 
-    // Event which executes the Function Load automatic
+    // Evento el cual ejecuta la funcíon load al cargar el documento.
     window.onload = load;
 
+    // Creación y inicializaciòn de variables usando la función Load
     // Creation and initialization of variables using the function Load
     var merchantId = load("merchantId");
     var referenceCode = load("referenceCode");
     var transactionId = load("transactionId");
+    var processingDate = moment().format('L, h:mm:ss a');
     var cus = load("cus");
     var pseBank = decodeURIComponent(load("pseBank"));
     var amount = load("TX_VALUE");
     var currency = load("currency");
     var description = load("description");
     var ipAddress = load("pseReference1");
-    var state = load("lapTransactionState");
+    var transactionState = load("transactionState");
+    var polResponseCode = load("polResponseCode");
     var lapPaymentMethodType = load("lapPaymentMethodType");
     var lapPaymentMethod = load("lapPaymentMethod");
 
+    // Muestra en la consola el los valores de las variables
     // Show in the console log the values of the variables.
     console.log(merchantId + "\n");
     console.log(referenceCode + "\n");
@@ -49,11 +53,52 @@ $(document).ready(function() {
     console.log(lapPaymentMethodType + "\n");
     console.log(lapPaymentMethod + "\n");
 
-    // Assignation of values in fields of the response page (mostrarCampos.html).
-    //document.getElementById("merchantId").value = merchantId;
-    $('#merchantId').html(merchantId);
+    // Controlador de posibles valores de estados de la transacción
+    // Controller of possible values of states of transaction
+    var state;
+    if (transactionState == 4 && polResponseCode == 1) {
+        state = "aprobada";
+    } else if (transactionState == 6) {
+        if (polResponseCode == 5) {
+            state = "fallida";
+
+        } else {
+            state = "rechazada";
+        }
+    } else if (transactionState == 7) {
+        state = "pendiente";
+    } else if (transactionState == 5) {
+        state = "expirada";
+    } else {
+        state = "error";
+    }
 
 
 
+    // Asignación de valores en campos de la pagina de respuesta (PaginaRespuesta.html).
+    // Assignation of values in fields of the response page (PaginaRespuesta.html).
+    $('#processingDate').html($.now());
+    $('#state').html(state);
+    $('#referenceCode').html(referenceCode);
+    $('#processingDate').html(processingDate);
+    $('#amount').html(amount + " " + load("currency"));
+    $('#referencePol').html(load("reference_pol"));
+    $('#description').html(description);
+    $('#paymentMethod').html(lapPaymentMethod);
+
+    if (lapPaymentMethod == "PSE") {
+        console.log("Antes del if pse");
+        $("#trCus").show();
+        $("#trPseBank").show();
+        $("#trIpAddress").show();
+        $('#cus').html(cus);
+        $('#pseBank').html(pseBank);
+        $('#ipAddress').html(ipAddress);
+    } else if (lapPaymentMethodType == "CREDIT_CARD" && transactionState == 4) {
+        $("#trTrazabilityCode").show();
+        $('#trazabilityCode').html(load("trazabilityCode"));
+    } else {
+        console.log("No se habilitan campos extra");
+    }
 
 });

@@ -1,177 +1,167 @@
 <html lang="en">
+
 <head>
-  <meta charset="utf-8">
-  <title>Pagina de respuesta Js</title>
-  <meta name="description" content="Pagina de respuesta Js">
-  <meta name="author" content="Sebastian Duque">
-  <script src="js/modernizr-2.6.2.js"></script>
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/getValues.js"></script>
-  <link href="css/bootstrap.css" rel="stylesheet">
-  <link href="css/bootstrap.min.css" rel="stylesheet">
-  <link href="css/Site.css" rel="stylesheet">
+    <meta charset="utf-8">
+    <title>Pagina de respuesta Js</title>
+    <meta name="description" content="Pagina de respuesta Js">
+    <meta name="author" content="Sebastian Duque">
+
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/Site.css" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="js/modernizr-2.6.2.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/getValues.js"></script>
+    <script src="js/moment.js"></script>
+
+
 </head>
+
 <body>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-  <script src="js/getValues.js"></script>
-<h3>Apreciado cliente:</h3>
-<h4>A continuación encontrarás los datos de la compra</h4>
-<!-- Script para ocultar los datos GET de la URL -->
-<script>
+    <h3>Apreciado cliente:</h3>
+    <h4>A continuación encontrarás los datos de la compra</h4> @*Script para ocultar los datos GET de la URL*@
+    <script>
+        if (typeof window.history.pushState == 'function') {
+            window.history.pushState({}, "Hide", "");
+        }
+    </script>
 
-    if(typeof window.history.pushState == 'function') {
-        window.history.pushState({}, "Hide", "http://localhost:50429/PaginaRespuesta/PaginaRespuesta");
-    }
-</script>
+    <style>
+        table#tabla_respuesta td:first-child {
+            text-align: right;
+        }
+    </style>
 
-<style>
-    table#tabla_respuesta td:first-child {
-        text-align: right;
-    }
-</style>
 
-<!-- Datos mínimos a mostrar en la página de respuesta. La tabla varía dependiendo del medio de pago -->
-<div class="navbar navbar-fixed-top">
-</div>
-<div class="row">
-    <div class="col-md-offset-3 col-md-6 ">
-        <table class="table table-bordered" id="tabla_respuesta">
-            <thead>
-                <tr><th colspan="2">Resultado de la operación:</th></tr>
-            </thead>
-            <tr>
-                <td width="40%">Empresa: </td>
-                <td width="60%">Mi Tienda SAS</td>
-            </tr>
-            <tr>
-                <td>NIT: </td>
-                <td>999555666-8 </td>
-            </tr>
-            <tr>
-                <td>Fecha de la transacción: </td>
-                <td id = 'merchantId'<span id="time"></span> </td>
-            </tr>
-            <tr>
-                <td>Estado: </td>
-                <td>@Model.estado</td>
-            </tr>
-            <tr>
-                <td>Referencia del pedido: </td>
-                <td>@Model.referencia</td>
-            </tr>
-            <tr>
-                <td>Referencia de la transacción: </td>
-                <td>@Model.transaccion</td>
-            </tr>
-            <tr>
-                <td>Valor: </td>
-                <td>@Model.valor @Model.moneda</td>
-            </tr>
-            <tr>
-                <td>Descripción: </td>
-                <td>@Model.descripcion</td>
-            </tr>
-            <tr>
-                <td>Medio de Pago: </td>
-                <td>@Model.medioPago</td>
-            </tr>
-            @if (Model.tipoMedioPago == "PSE")
-            {
-
-                <tr>
-                    <td>CUS: </td>
-                    <td>@Model.cus</td>
-                </tr>
-            <tr>
-                <td>Banco: </td>
-                <td>@Model.banco</td>
-            </tr>
-            <tr>
-                <td>IP de Origen: </td>
-                <td>@Model.ipOrigen</td>
-            </tr>
-            }
-            else if (Model.tipoMedioPago == "CREDIT_CARD")
-            {
-                <tr>
-                    <td>Código de trazabilidad: </td>
-                    <td>@Model.cus</td>
-                </tr>
-            }
-        </table>
+    <div class="navbar navbar-fixed-top">
     </div>
-</div>
-
-<div class="row text-center">
-    <div class="btn-group">
-        <button type="button" class="btn btn-info" data-toggle="tooltip" data-placement="left" title="Solo debe aparecer cuando la transacción es rechazada o fallida. Redirecciona al usuario al checkout sin desocupar el carrito de compra y verificando la disponibilidad del inventario y cambiando la referencia (referenceCode)">
-            Reintentar transacción
-        </button>
-        <button type="button" class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="Debe redireccional al cliente a la página de inicio de la tienda o al historial de compras/pagos">
-            Finalizar transacción
-        </button>
-        <button type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="right" title="Permitir al cliente imprimir un comprobante de los datos mostrados en la página de respuesta">
-            Imprimir comprobante
-        </button>
-    </div>
-</div>
-
-<br />
-
-@*Sección de log de todos los datos recibidos. Es a modo de ejmplo y no debe colocase en la página de respuesta*@
-<div class="row">
-    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseLog" aria-expanded="false" aria-controls="collapseExample">
-        Ver todos los datos recibidos (LOG)
-    </button>
-    <div class="collapse" id="collapseLog">
-        <div class="well">
-            <table class="table table-striped">
+    <div class="row">
+        <div class="col-md-offset-3 col-md-6 ">
+            <table class="table table-bordered" id="tabla_respuesta">
                 <thead>
-                    <tr><th>Variable</th><th>Valor</th></tr>
+                    <tr>
+                        <th colspan="2">Resultado de la operación:</th>
+                    </tr>
                 </thead>
-
-                @foreach (var medio in ViewBag.Log)
-            {
-                if (medio.valor != "")
-                {
-                        <tr>
-                            <td><i class="glyphicon glyphicon-check"></i> @medio.campo </td>
-                            <td>@medio.valor </td>
-                        </tr>
-                    }
-                    else
-                    {
-                        <tr>
-                            <td><i class="glyphicon glyphicon-unchecked"></i> @medio.campo </td>
-                            <td>@medio.valor </td>
-                        </tr>
-                    }
-
-
-                }
+                <tr>
+                    <td width="40%">Empresa: </td>
+                    <td width="60%">Mi Tienda SAS</td>
+                </tr>
+                <tr>
+                    <td>NIT: </td>
+                    <td>999555666-8 </td>
+                </tr>
+                <tr>
+                    <td>Fecha de la transacción: </td>
+                    <td id='processingDate'><span id="time"></span> </td>
+                </tr>
+                <tr>
+                    <td>Estado: </td>
+                    <td id='state'></td>
+                </tr>
+                <tr>
+                    <td>Referencia del pedido: </td>
+                    <td id='referenceCode'></td>
+                </tr>
+                <tr>
+                    <td>Referencia de la transacción: </td>
+                    <td id='referencePol'></td>
+                </tr>
+                <tr>
+                    <td>Valor: </td>
+                    <td id='amount'></td>
+                </tr>
+                <tr>
+                    <td>Descripción: </td>
+                    <td id='description'></td>
+                </tr>
+                <tr>
+                    <td>Medio de Pago: </td>
+                    <td id='paymentMethod'></td>
+                </tr>
+                <tr id="trCus" style="display: none;">
+                    <td>CUS: </td>
+                    <td id='cus'></td>
+                </tr>
+                <tr id="trPseBank" name="trPseBank" style="display: none;">
+                    <td>Banco: </td>
+                    <td id='pseBank'></td>
+                </tr>
+                <tr id="trIpAddress" style="display: none;">
+                    <td>IP de Origen: </td>
+                    <td id='ipAddress'></td>
+                </tr>
+                <tr id="trTrazabilityCode" name="trTrazabilityCode" style="display: none;">
+                    <td>Código de trazabilidad: </td>
+                    <td id='trazabilityCode'></td>
+                </tr>
             </table>
         </div>
     </div>
-</div>
 
-@*Script para el color de la fila que depende del estado.*@
-<script>
-    $(document).ready(function () {
-        $('tr:has(td:contains("aprobada"))').addClass('success');
-        $('tr:has(td:contains("rechazada"))').addClass('danger');
-        $('tr:has(td:contains("fallida"))').addClass('danger');
-        $('tr:has(td:contains("pendiente"))').addClass('warning');
+    <div class="row text-center">
+        <div class="btn-group">
+            <button type="button" class="btn btn-info" data-toggle="tooltip" data-placement="left" title="Solo debe aparecer cuando la transacción es rechazada o fallida. Redirecciona al usuario al checkout sin desocupar el carrito de compra y verificando la disponibilidad del inventario y cambiando la referencia (referenceCode)">
+            Reintentar transacción
+        </button>
+            <button type="button" class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="Debe redireccional al cliente a la página de inicio de la tienda o al historial de compras/pagos">
+            Finalizar transacción
+        </button>
+            <button type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="right" title="Permitir al cliente imprimir un comprobante de los datos mostrados en la página de respuesta">
+            Imprimir comprobante
+        </button>
+        </div>
+    </div>
 
-    });
-</script>
+    <br/> @*Sección de log de todos los datos recibidos. Es a modo de ejmplo y no debe colocase en la página de respuesta*@
+    <div class="row">
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseLog" aria-expanded="false" aria-controls="collapseExample">
+        Ver todos los datos recibidos (LOG)
+    </button>
+        <div class="collapse" id="collapseLog">
+            <div class="well">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Variable</th>
+                            <th>Valor</th>
+                        </tr>
+                    </thead>
 
-@*Scrpt para el tooltip negro de los botones de Reintentar, Finalizar e Imprimir*@
+                    @foreach (var medio in ViewBag.Log) { if (medio.valor != "") {
+                    <tr>
+                        <td><i class="glyphicon glyphicon-check"></i> @medio.campo </td>
+                        <td>@medio.valor </td>
+                    </tr>
+                    } else {
+                    <tr>
+                        <td><i class="glyphicon glyphicon-unchecked"></i> @medio.campo </td>
+                        <td>@medio.valor </td>
+                    </tr>
+                    } }
+                </table>
+            </div>
+        </div>
+    </div>
 
-<script>
-    $(document).ready(function () {
-        $('[data-toggle="tooltip"]').tooltip();
-    });
-</script>
+    @*Script para el color de la fila que depende del estado.*@
+    <script>
+        $(document).ready(function() {
+            $('tr:has(td:contains("aprobada"))').addClass('success');
+            $('tr:has(td:contains("rechazada"))').addClass('danger');
+            $('tr:has(td:contains("fallida"))').addClass('danger');
+            $('tr:has(td:contains("pendiente"))').addClass('warning');
 
-</body>
+        });
+    </script>
+
+    @*Scrpt para el tooltip negro de los botones de Reintentar, Finalizar e Imprimir*@
+    <script>
+        $(function() {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+
 </html>
