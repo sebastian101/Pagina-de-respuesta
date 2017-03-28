@@ -14,6 +14,8 @@ $(document).ready(function() {
             }
         }
         return (false);
+
+
     };
 
     // Event which executes the Function Load automatic
@@ -24,7 +26,7 @@ $(document).ready(function() {
     var referenceCode = load("referenceCode");
     var transactionId = load("transactionId");
     var cus = load("cus");
-    var pseBank = load("pseBank").replace(/%20/g, ' ');
+    var pseBank = decodeURIComponent(load("pseBank"));
     var amount = load("TX_VALUE");
     var currency = load("currency");
     var description = load("description");
@@ -32,9 +34,6 @@ $(document).ready(function() {
     var state = load("lapTransactionState");
     var lapPaymentMethodType = load("lapPaymentMethodType");
     var lapPaymentMethod = load("lapPaymentMethod");
-
-    // Assignation of values in fields of the response page (mostrarCampos.html).
-    
 
     // Show in the console log the values of the variables.
     console.log(merchantId + "\n");
@@ -49,6 +48,12 @@ $(document).ready(function() {
     console.log(state + "\n");
     console.log(lapPaymentMethodType + "\n");
     console.log(lapPaymentMethod + "\n");
+
+    // Assignation of values in fields of the response page (mostrarCampos.html).
+    //document.getElementById("merchantId").value = merchantId;
+    $('#merchantId').html(merchantId);
+
+
 
 
 });

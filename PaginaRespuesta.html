@@ -5,17 +5,18 @@
   <meta name="description" content="Pagina de respuesta Js">
   <meta name="author" content="Sebastian Duque">
   <script src="js/modernizr-2.6.2.js"></script>
-
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/getValues.js"></script>
   <link href="css/bootstrap.css" rel="stylesheet">
-  <link href="css/Site.css" rel="stylesheet">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-
   <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/Site.css" rel="stylesheet">
 </head>
 <body>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="js/getValues.js"></script>
 <h3>Apreciado cliente:</h3>
 <h4>A continuación encontrarás los datos de la compra</h4>
-@*Script para ocultar los datos GET de la URL*@
+<!-- Script para ocultar los datos GET de la URL -->
 <script>
 
     if(typeof window.history.pushState == 'function') {
@@ -29,7 +30,7 @@
     }
 </style>
 
-@*Datos mínimos a mostrar en la página de respuesta. La tabla varía dependiendo del medio de pago*@
+<!-- Datos mínimos a mostrar en la página de respuesta. La tabla varía dependiendo del medio de pago -->
 <div class="navbar navbar-fixed-top">
 </div>
 <div class="row">
@@ -48,7 +49,7 @@
             </tr>
             <tr>
                 <td>Fecha de la transacción: </td>
-                <td><span id="time">@DateTime.Now</span> </td>
+                <td id = 'merchantId'<span id="time"></span> </td>
             </tr>
             <tr>
                 <td>Estado: </td>
@@ -167,13 +168,10 @@
 @*Scrpt para el tooltip negro de los botones de Reintentar, Finalizar e Imprimir*@
 
 <script>
-    console.log("Antes");
     $(document).ready(function () {
-        console.log("Dentro");
         $('[data-toggle="tooltip"]').tooltip();
     });
-    console.log("Despues");
 </script>
-<script src="js/bootstrap.min.js"></script>
+
 </body>
 </html>
