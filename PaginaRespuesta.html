@@ -6,22 +6,23 @@
     <meta name="description" content="Pagina de respuesta Js">
     <meta name="author" content="Sebastian Duque">
 
-    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/bootstrap.css" rel="stylesheet" media="screen">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/Site.css" rel="stylesheet">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
     <script src="js/modernizr-2.6.2.js"></script>
+    <script src="js/bootstrap.min.js"></script>
     <script src="js/bootstrap.js"></script>
-    <script src="js/getValues.js"></script>
     <script src="js/moment.js"></script>
-
-
+    <script src="js/getValues.js"></script>
 </head>
 
 <body>
     <h3>Apreciado cliente:</h3>
-    <h4>A continuación encontrarás los datos de la compra</h4> @*Script para ocultar los datos GET de la URL*@
+    <h4>A continuación encontrarás los datos de la compra</h4>
+    <!--Script para ocultar los datos GET de la URL -->
     <script>
         if (typeof window.history.pushState == 'function') {
             window.history.pushState({}, "Hide", "");
@@ -115,38 +116,38 @@
         </div>
     </div>
 
-    <br/> @*Sección de log de todos los datos recibidos. Es a modo de ejmplo y no debe colocase en la página de respuesta*@
+    <br/>
+    <!-- Sección de log de todos los datos recibidos. Es a modo de ejmplo y no debe colocase en la página de respuesta -->
     <div class="row">
         <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseLog" aria-expanded="false" aria-controls="collapseExample">
         Ver todos los datos recibidos (LOG)
     </button>
         <div class="collapse" id="collapseLog">
             <div class="well">
-                <table class="table table-striped">
+                <table id='tableLog' class="table table-striped">
                     <thead>
                         <tr>
                             <th>Variable</th>
                             <th>Valor</th>
                         </tr>
                     </thead>
+                    <!--
+                    <tr>
+                        <td id='variable'><i class="glyphicon glyphicon-check"></i> test</td>
+                        <td id='value'>test </td>
+                    </tr>
 
-                    @foreach (var medio in ViewBag.Log) { if (medio.valor != "") {
-                    <tr>
-                        <td><i class="glyphicon glyphicon-check"></i> @medio.campo </td>
-                        <td>@medio.valor </td>
+                    <tr id='tdLog'>
+                        <td id='variable'><i class="glyphicon glyphicon-unchecked"></i> test</td>
+                        <td id='value'>test </td>
                     </tr>
-                    } else {
-                    <tr>
-                        <td><i class="glyphicon glyphicon-unchecked"></i> @medio.campo </td>
-                        <td>@medio.valor </td>
-                    </tr>
-                    } }
+-->
                 </table>
             </div>
         </div>
     </div>
 
-    @*Script para el color de la fila que depende del estado.*@
+    <!--Script para el color de la fila que depende del estado.-->
     <script>
         $(document).ready(function() {
             $('tr:has(td:contains("aprobada"))').addClass('success');
@@ -157,7 +158,7 @@
         });
     </script>
 
-    @*Scrpt para el tooltip negro de los botones de Reintentar, Finalizar e Imprimir*@
+    <!-- Script para el tooltip negro de los botones de Reintentar, Finalizar e Imprimir -->
     <script>
         $(function() {
             $('[data-toggle="tooltip"]').tooltip()

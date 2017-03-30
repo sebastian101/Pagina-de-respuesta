@@ -14,8 +14,6 @@ $(document).ready(function() {
             }
         }
         return (false);
-
-
     };
 
     // Evento el cual ejecuta la funcíon load al cargar el documento.
@@ -57,20 +55,20 @@ $(document).ready(function() {
     // Controller of possible values of states of transaction
     var state;
     if (transactionState == 4 && polResponseCode == 1) {
-        state = "aprobada";
+        state = "Transacción aprobada";
     } else if (transactionState == 6) {
         if (polResponseCode == 5) {
-            state = "fallida";
+            state = "Transacción fallida";
 
         } else {
-            state = "rechazada";
+            state = "Transacción rechazada";
         }
     } else if (transactionState == 7) {
-        state = "pendiente";
+        state = "Transacción pendiente, por favor revisar si el débito fue realizado en el banco.";
     } else if (transactionState == 5) {
-        state = "expirada";
+        state = "Expirada";
     } else {
-        state = "error";
+        state = "Error";
     }
 
 
@@ -87,7 +85,6 @@ $(document).ready(function() {
     $('#paymentMethod').html(lapPaymentMethod);
 
     if (lapPaymentMethod == "PSE") {
-        console.log("Antes del if pse");
         $("#trCus").show();
         $("#trPseBank").show();
         $("#trIpAddress").show();
@@ -100,5 +97,24 @@ $(document).ready(function() {
     } else {
         console.log("No se habilitan campos extra");
     }
-
+    window.onload = tableLog;
+    // asignación de valores sobre la tabla de logs.
+    // Asignation of values to the log table  
+    function tableLog() {
+        var query, parms, i, pos, key, val;
+        query = location.search.substring(1);
+        parms = query.split('&');
+        for (i = parms.length - 1; i >= 0; i--) {
+            pos = parms[i].indexOf('=');
+            if (pos > 0) {
+                key = parms[i].substring(0, pos);
+                val = parms[i].substring(pos + 1);
+                if (val != "") {
+                    $("#tableLog").append("<tr><td id='variable'>" + "<i class='glyphicon glyphicon-check'>" + " " + key + "</td>" + "<td id='value'>" + val + "</td></tr>");
+                } else {
+                    $("#tableLog").append("<tr><td id='variable'> " + "<i class='glyphicon glyphicon-unchecked'>" + " " + key + "</td>" + "<td id='value'>" + val + "</td></tr>");
+                }
+            }
+        }
+    };
 });
