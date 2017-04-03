@@ -5,10 +5,8 @@
     <title>Pagina de respuesta Js</title>
     <meta name="description" content="Pagina de respuesta Js">
     <meta name="author" content="Sebastian Duque">
-
     <link href="css/bootstrap.css" rel="stylesheet" media="screen">
     <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/Site.css" rel="stylesheet">
 
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
     <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
@@ -16,31 +14,28 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/bootstrap.js"></script>
     <script src="js/moment.js"></script>
+    <script src="js/md5.js"></script>
+    <script src="js/signatureGenerator.js"></script>
     <script src="js/getValues.js"></script>
 </head>
 
 <body>
-    <h3>Apreciado cliente:</h3>
-    <h4>A continuación encontrarás los datos de la compra</h4>
-    <!--Script para ocultar los datos GET de la URL -->
-    <script>
-        if (typeof window.history.pushState == 'function') {
-            window.history.pushState({}, "Hide", "");
-        }
-    </script>
-
     <style>
-        table#tabla_respuesta td:first-child {
+        table#table td:first-child {
             text-align: right;
         }
     </style>
-
-
-    <div class="navbar navbar-fixed-top">
+    <div class="jumbotron">
+        <img style="max-width:100px; margin-top: -7px;" src="images/shopping-bags.png">
+        </a>
     </div>
-    <div class="row">
-        <div class="col-md-offset-3 col-md-6 ">
-            <table class="table table-bordered" id="tabla_respuesta">
+
+
+    <div class="row" id="responseDiv">
+        <div class="col-md-offset-3 col-md-6 " id="responseTable">
+            <h3>Apreciado cliente:</h3>
+            <h4>A continuación encontrarás los datos de la compra</h4>
+            <table class="table table-bordered" id="table">
                 <thead>
                     <tr>
                         <th colspan="2">Resultado de la operación:</th>
@@ -101,27 +96,25 @@
             </table>
         </div>
     </div>
-
-    <div class="row text-center">
+    <div class="row text-center" id='buttons'>
         <div class="btn-group">
             <button type="button" class="btn btn-info" data-toggle="tooltip" data-placement="left" title="Solo debe aparecer cuando la transacción es rechazada o fallida. Redirecciona al usuario al checkout sin desocupar el carrito de compra y verificando la disponibilidad del inventario y cambiando la referencia (referenceCode)">
             Reintentar transacción
-        </button>
+            </button>
             <button type="button" class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="Debe redireccional al cliente a la página de inicio de la tienda o al historial de compras/pagos">
             Finalizar transacción
-        </button>
+            </button>
             <button type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="right" title="Permitir al cliente imprimir un comprobante de los datos mostrados en la página de respuesta">
             Imprimir comprobante
-        </button>
+            </button>
         </div>
     </div>
-
     <br/>
     <!-- Sección de log de todos los datos recibidos. Es a modo de ejmplo y no debe colocase en la página de respuesta -->
-    <div class="row">
+    <div class="row text-center">
         <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseLog" aria-expanded="false" aria-controls="collapseExample">
-        Ver todos los datos recibidos (LOG)
-    </button>
+         Ver todos los datos recibidos (LOG)
+         </button>
         <div class="collapse" id="collapseLog">
             <div class="well">
                 <table id='tableLog' class="table table-striped">
@@ -131,34 +124,11 @@
                             <th>Valor</th>
                         </tr>
                     </thead>
-                    <!--
-                    <tr>
-                        <td id='variable'><i class="glyphicon glyphicon-check"></i> test</td>
-                        <td id='value'>test </td>
-                    </tr>
-
-                    <tr id='tdLog'>
-                        <td id='variable'><i class="glyphicon glyphicon-unchecked"></i> test</td>
-                        <td id='value'>test </td>
-                    </tr>
--->
                 </table>
             </div>
         </div>
     </div>
 
-    <!--Script para el color de la fila que depende del estado.-->
-    <script>
-        $(document).ready(function() {
-            $('tr:has(td:contains("aprobada"))').addClass('success');
-            $('tr:has(td:contains("rechazada"))').addClass('danger');
-            $('tr:has(td:contains("fallida"))').addClass('danger');
-            $('tr:has(td:contains("pendiente"))').addClass('warning');
-
-        });
-    </script>
-
-    <!-- Script para el tooltip negro de los botones de Reintentar, Finalizar e Imprimir -->
     <script>
         $(function() {
             $('[data-toggle="tooltip"]').tooltip()
